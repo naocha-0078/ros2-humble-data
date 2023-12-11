@@ -1,27 +1,14 @@
 version: '3.3'
 services:
-  nvidia:
-    entrypoint:
-      - ./runapp.sh
-    shm_size: '8gb'
+  ros:
     environment:
-      ACCEPT_EULA: Y
       DISPLAY: ${DISPLAY}
-      NVIDIA_VISIBLE_DEVICES: all
-      NVIDIA_DRIVER_CAPABILITIES: all
     network_mode: host
     volumes:
-      -  /tmp/.X11-unix:/tmp/.X11-unix:rw
-      -  /etc/localtime:/etc/localtime:ro
-      -  $PWD/robots:/isaac_hsr/robots:rw
-      -  $PWD/usd:/isaac_hsr/usd:rw
+      -  /tmp/.X11-unix:/tmp/.X11-unix
     privileged: true
-#    image: 'nvcr.io/nvidia/isaac-sim:2021.2.1'
-    image: 'nvcr.io/nvidia/isaac-sim:2023.1.0'
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [gpu]
-
-
+    container_name: 'ros2-dev'
+    image: 'okumura708/ros2-dev:latest'
+    devices:
+      -  "/dev:/dev"
+    stdin_open: true
